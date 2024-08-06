@@ -1,0 +1,28 @@
+executor: "KubernetesExecutor"
+
+logs:
+  persistence:
+    enabled: true
+
+dags:
+  gitSync:
+    enabled: true
+    repo: "https://github.com/astronomer/airflow-example-dags.git"
+    branch: "main"
+    subPath: "/dags/"
+    wait: 60
+    containerName: "git-sync"
+
+gitSync:
+  image:
+    repository: "k8s.gcr.io/git-sync/git-sync"
+    tag: "v3.6.5"
+  volume:
+    name: "dags"
+    subPath: "dags"
+
+web:
+  defaultUser:
+    enabled: true
+    username: "admin"
+    password: "admin"
